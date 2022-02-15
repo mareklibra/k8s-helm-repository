@@ -1,0 +1,60 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: charts.helm-repository.openshift.io
+spec:
+  group: helm-repository.openshift.io
+  names:
+    kind: Chart
+    listKind: ChartList
+    plural: charts
+    singular: chart
+  scope: Namespaced
+  versions:
+   - additionalPrinterColumns:
+     name: v1alpha1
+     schema:
+       openAPIV3Schema:
+         description: 'Chart is decomposed Helm Chart.'
+         type: object
+         properties:
+           apiVersion:
+             description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+             type: string
+           kind:
+             description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+             type: string
+           metadata:
+             type: object
+           spec:
+             description: 'ChartSpec defines the desired content of Helm Chart'
+             type: object
+             required:
+             - templates
+             - values 
+             properties:
+               templates:
+                 description: 'Array of temaplate base64-encoded yaml files'
+                 type: array
+                 items:
+                   description: 'A template represents base64-encoded content of a single Helm Chart template .yaml file.'
+                   type: object
+                   properties:
+                     name:
+                       description: 'Template file name'
+                       type: string
+                     b64Content:
+                       description: 'Encoded file content'
+                       type: string
+               values:
+                 description: 'Helm default values, base64 encoded.'
+                 type: string
+     served: true
+     storage: true
+     subresources:
+       status: {}
+status:
+  conditions: []
+  storedVersions: []
+
