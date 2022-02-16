@@ -1,4 +1,8 @@
 ---
+# TODO:
+# Licence
+# Chart.yaml
+#
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -19,6 +23,7 @@ spec:
          description: 'Chart is decomposed Helm Chart.'
          type: object
          properties:
+### Start of part shared with HelmChartInstall CRD
            apiVersion:
              description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
              type: string
@@ -50,6 +55,22 @@ spec:
                values:
                  description: 'Helm default values, base64 encoded.'
                  type: string
+               description:
+                 description: "For Chart.yaml"
+                 type: string
+               version:
+                 description: "For Chart.yaml"
+                 type: string
+               appVersion:
+                 description: "For Chart.yaml"
+                 type: string
+               license:
+                 desciption: "Base64 encoded chart's licence. Expected to be set when the chart is exposed publicly."
+                 type: string
+               readme:
+                 desciption: "Base64 encoded chart's README file. Expected to be set when the chart is exposed publicly."
+                 type: string
+### End of part shared with HelmChartInstall CRD
      served: true
      storage: true
      subresources:
